@@ -57,26 +57,27 @@ int mediaTrack::display(){
 int mediaTrack::displayAll(int count){
 
   media * current = hash_table[count];
+    cout << "count: " << count << endl;
   if(count >= SZ-1)
   {
     cout << "End of List" << endl << endl;
     return 1;
   }
+
+  else if(hash_table[count] && count < SZ-1)
+  {
+
+    while(current){
+    cout << "Name: " << current->name << endl;
+    cout << "Channel/Site: " << current->channel << endl;
+    current = current->next;
+    }
+    ++count;
+  }
   while(!hash_table[count] && count < SZ-1)
   {
     ++count;
   }
-
-  while(current && count < SZ-1)
-  {
-
-    cout << "Name: " << current->name << endl;
-    cout << "Channel/Site: " << current->channel << endl;
-    cout << "count: " << count << endl;
-    current = current->next;
-
-  }
-  ++count;
 
   return displayAll(count);
 
@@ -112,10 +113,10 @@ int mediaTrack::addTo_Priv(media & to_add){
     strcpy(current->name,to_add.name);
     current->channel = new char[strlen(to_add.channel)+1];
     strcpy(current->channel,to_add.channel);
+    current->next = hash_table[returnCode];
+    hash_table[returnCode] = current;
+    cout << "hash2: " << current->next->name << endl;
   }
-  current->next = hash_table[returnCode];
-  hash_table[returnCode] = current;
-  cout << "hash2: " << current->next->name << endl;
   /*hash_table[returnCode] = new media;
   hash_table[returnCode]->name = new char[strlen(to_add->name) + 1];
   strcpy(hash_table[returnCode]->name,to_add->name);
