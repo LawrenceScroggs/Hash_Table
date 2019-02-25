@@ -56,6 +56,7 @@ int mediaTrack::display(){
 // recursive function for display all 
 int mediaTrack::displayAll(int count){
 
+  media * current = hash_table[count];
   if(count >= SZ-1)
   {
     cout << "End of List" << endl << endl;
@@ -66,14 +67,14 @@ int mediaTrack::displayAll(int count){
     ++count;
   }
 
-  while(hash_table[count] && count < SZ-1)
+  while(current->next && count < SZ-1)
   {
-    cout << "Name: " << hash_table[count] << endl;
-    cout << "Channel/Site: " << hash_table[count] << endl;
+    cout << "Name: " << current->name << endl;
+    cout << "Channel/Site: " << current->channel << endl;
     cout << "count: " << count << endl;
 
-    hash_table[count] = hash_table[count]->next;
 
+    current = current->next;
   }
   ++count;
 
@@ -87,20 +88,21 @@ int mediaTrack::addTo_Priv(media & to_add){
 
   cout << "return code: " << returnCode << endl;
 
-  media * current = new media;
+  media * current = hash_table[returnCode];
 
-  if(!hash_table[returnCode])
+  if(!current)
   {
     cout << "test 2" << endl;
-    hash_table[returnCode] = new media;
-    hash_table[returnCode]->name = new char[strlen(to_add.name) + 1];
-    strcpy(hash_table[returnCode]->name,to_add.name);
-    hash_table[returnCode]->channel = new char[strlen(to_add.channel) + 1];
-    strcpy(hash_table[returnCode]->channel,to_add.channel);
-    hash_table[returnCode]->next = NULL;
-    cout << "hash: " << hash_table[returnCode]->name << endl;
+    current = new media;
+    current->name = new char[strlen(to_add.name) + 1];
+    strcpy(current->name,to_add.name);
+    current->channel = new char[strlen(to_add.channel) + 1];
+    strcpy(current->channel,to_add.channel);
+    current->next = NULL;
+    hash_table[returnCode] = current;
+    cout << "hash: " << current->name << endl;
   }
-  else if(hash_table[returnCode])
+  else if(current)
   {
 
     cout << "in here " << endl;
