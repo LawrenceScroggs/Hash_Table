@@ -4,3 +4,23 @@ hulu@ccc
 fox@ddd
 cnn@eee
 twitch@fff
+cnnnews@ggg
+reddit@hhh
+overwatch@iii
+cartoonnetwork@jjj
+funimation@kkk
+vrv@lll
+crunchyroll@mmm
+hbo@nnn
+showtime@ooo
+starz@ppp
+history@qqq
+food-channel@rrr
+weather-channel@sss
+fx@ttt
+tnt@uuu
+tbs@vvv
+rick and morty@www
+my hero academia@xxx
+call of duty@yyy
+one punch man@zzz

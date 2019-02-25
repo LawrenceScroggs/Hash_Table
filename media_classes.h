@@ -14,6 +14,8 @@ const int SZ = 23;
 class media{
 
   public:
+  media();
+  ~media();
   char * name;
   char * channel; // website or channel 
   char * descrip;
@@ -32,23 +34,27 @@ class mediaTrack{
   public:
     mediaTrack();
     ~mediaTrack();
-    //wrapper functions 
+
     int insert(media & to_add);
     int remove();
-    int display();
-    
+    int showKeys();
+    int addNew();
+   
+    // file in and out functions
     int in_file(media & to_add); // reads in data from file
     int out_file(); // moves data to file
-    
+   
+    //wrapper function
+    int display();
 
   private:
     int addTo_Priv(media & to_add); // adds a node to the list
-    int remove_Priv(media * to_find); // removes a  node from list
+    int remove_Priv(media & to_find); // removes a  node from list
     int hashKey(media * to_add); // produces index for placement in array
     int searchKey(media * to_add); // produces hash key 
 
     //searching for and displaying keys
-    int searchKey();
+    int displayKey(int userKey);
     int displayAll(int count);
     int displayKeys();
 
@@ -56,6 +62,7 @@ class mediaTrack{
     media ** hash_table; // makes array of dynamically allocated head pointers
     int hash_array; // used for array size 
     int count = 0;
+    int num_of_media = 0;
 
 
 };

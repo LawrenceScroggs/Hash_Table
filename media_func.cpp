@@ -10,17 +10,6 @@ int mediaTrack::in_file(media & to_add){
   if(file_in){
 
     if(file_in.peek() == -1) return -1;
-    /*to_add->name = new char[100];
-    file_in.get(to_add->name,100,'@');
-    file_in.ignore(100,'@');
-    to_add->channel = new char[100];
-    file_in.get(to_add->channel,100,'\n');
-    file_in.ignore(100,'\n');
-
-    cout << "name: " << to_add->name << endl;
-    cout << "channel: " << to_add->channel << endl;
-
-    insert(to_add);*/
 
     while(file_in && !file_in.eof()){
 
@@ -45,13 +34,83 @@ int mediaTrack::in_file(media & to_add){
   file_in.clear();
   file_in.close();
   }
+  delete to_add.name;
+  delete to_add.channel;
+}
+// adds a new media item
+int mediaTrack::addNew(){
 
+  media add;
+  add.name = new char[100];
+  cout << "Please enter the Name of Show/Media outlet: ";
+  cin.get(add.name,100);
+  cin.ignore(100,'\n');
+  add.channel = new char[100];
+  cout << "Please enter the website or channel: ";
+  cin.get(add.channel,100);
+  cin.ignore(100,'\n');
+
+  insert(add);
+  cout << endl << endl;
+
+  delete add.name;
+  delete add.channel;
+}
+// function for key display/display all 
+int mediaTrack::showKeys(){
+
+  int userKey = 0;
+  int check = 0;
+
+  cout << "Please enter the key you are wanting to display: ";
+  cin >> userKey;
+  cin.ignore(100,'\n');
+
+  check = displayKey(userKey);
+
+  if(check == -1)
+  {
+    cout << "KEY NOT FOUND" << endl << endl;
+  }
+
+}
+int mediaTrack::displayKey(int userKey){
+
+  int index = userKey%SZ;
+
+
+  media * current = hash_table[index];
+
+  if(!hash_table[index])
+    return -1;
+
+  else if(hash_table[index])
+  {
+    while(current){
+      if(current->hashKey != userKey) return -1;
+      
+      cout << "Match/es for Key" << endl;
+      if(current->hashKey == userKey)
+      {
+        cout << "Name: " << current->name << endl;
+        cout << "Channel/Site: " << current->channel << endl;
+        cout << "Key: " << current->hashKey << endl << endl;
+      }
+    current = current->next;
+    }
+  
+  }
 }
 //wrapper function for recursive display
 int mediaTrack::display(){
 
-  displayAll(count);
+  int shows = 0;
+  count = 0;
+  num_of_media = 0;
+  
+  shows = displayAll(count);
 
+  //cout << "Number of Shows: " << shows << endl << endl;
 }
 // recursive function for display all 
 int mediaTrack::displayAll(int count){
@@ -61,7 +120,7 @@ int mediaTrack::displayAll(int count){
   if(count >= SZ-1)
   {
     cout << "End of List" << endl << endl;
-    return 1;
+    return num_of_media;
   }
 
   else if(hash_table[count] && count < SZ-1)
@@ -70,7 +129,9 @@ int mediaTrack::displayAll(int count){
     while(current){
     cout << "Name: " << current->name << endl;
     cout << "Channel/Site: " << current->channel << endl;
+    cout << "Key: " << current->hashKey << endl << endl;
     current = current->next;
+    ++num_of_media;
     }
     ++count;
   }
@@ -99,7 +160,9 @@ int mediaTrack::addTo_Priv(media & to_add){
     strcpy(current->name,to_add.name);
     current->channel = new char[strlen(to_add.channel) + 1];
     strcpy(current->channel,to_add.channel);
+    current->hashKey = searchKey(&to_add);
     hash_table[returnCode] = current;
+
     current->next = NULL;
     cout << "hash: " << current->name << endl;
   }
@@ -113,21 +176,15 @@ int mediaTrack::addTo_Priv(media & to_add){
     strcpy(current->name,to_add.name);
     current->channel = new char[strlen(to_add.channel)+1];
     strcpy(current->channel,to_add.channel);
+    current->hashKey = searchKey(&to_add);
+
     current->next = hash_table[returnCode];
     hash_table[returnCode] = current;
     cout << "hash2: " << current->next->name << endl;
   }
-  /*hash_table[returnCode] = new media;
-  hash_table[returnCode]->name = new char[strlen(to_add->name) + 1];
-  strcpy(hash_table[returnCode]->name,to_add->name);
-  hash_table[returnCode]->channel = new char[strlen(to_add->channel) + 1];
-  strcpy(hash_table[returnCode]->channel,to_add->channel);
-  hash_table[returnCode]->next = NULL;*/
-
-
 
 }
-// wrapper function to check for proper insert
+// function to check for proper insert
 int mediaTrack::insert(media & to_add){
 
   int check = 0;
@@ -198,4 +255,16 @@ int mediaTrack::hashKey(media * to_add){
   return power%hash_array;
 
 }
+media::media(){
 
+  name = NULL;
+  channel = NULL;
+  descrip = NULL;
+  info = NULL;
+  
+  rating = 0;
+  hashKey = 0;
+}
+media::~media(){
+
+}
