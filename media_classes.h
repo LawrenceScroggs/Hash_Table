@@ -5,13 +5,16 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
+
+const int SZ = 23;
 
 struct media{
 
   char * name;
-  char * channel;
+  char * channel; // website or channel 
   char * descrip;
   char * info;
 
@@ -26,24 +29,30 @@ class mediaTrack{
   public:
     mediaTrack();
     ~mediaTrack();
-    //wrapper functions
-    int addTo();
+    //wrapper functions 
+    int insert(media & to_add);
     int remove();
-    //searching for and displaying keys
-    int searchKey();
-    int displayAll();
-    int displayKeys();
+    int display();
+    
+    int in_file(media & to_add); // reads in data from file
+    int out_file(); // moves data to file
     
 
   private:
-    int addTo_Priv(media *& head); // adds a node to the list
-    int remove_Prive(media *& head); // removes a  node from list
-    int hashKey(media * head); // produces hash key for placement in array
+    int addTo_Priv(media & to_add); // adds a node to the list
+    int remove_Priv(media * to_find); // removes a  node from list
+    int hashKey(media * to_add); // produces index for placement in array
+    int searchKey(media * to_add); // produces hash key 
 
-    int in_file(media *& head); // reads in data from file
-    int out_file(media *& head); // moves data to file
+    //searching for and displaying keys
+    int searchKey();
+    int displayAll(int count);
+    int displayKeys();
 
 
+    media ** hash_table; // makes array of dynamically allocated head pointers
+    int hash_array; // used for array size 
+    int count = 0;
 
 
 };

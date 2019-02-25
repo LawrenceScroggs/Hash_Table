@@ -14,7 +14,19 @@
 
 int main(){
 
+  media to_add;
+  mediaTrack list;
 
+  list.in_file(to_add);
+
+/*  to_add.name = new char[100];
+  cout << "Enter name: ";
+  cin.get(to_add.name,100); cin.ignore(100,'\n');
+
+
+  list.insert(&to_add);*/
+
+  list.display();
 
 
 

@@ -1,1 +1,6 @@
-//keeps
+netflix@aaa
+youtube@bbb
+hulu@ccc
+fox@ddd
+cnn@eee
+twitch@fff
