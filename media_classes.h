@@ -49,7 +49,7 @@ class mediaTrack{
 
   private:
     int addTo_Priv(media & to_add); // adds a node to the list
-    int remove_Priv(media & to_find); // removes a  node from list
+    int remove_Priv(media & to_find,char * temp,int count); // removes a  node from list
     int hashKey(media * to_add); // produces index for placement in array
     int searchKey(media * to_add); // produces hash key 
 

@@ -6,10 +6,18 @@
 int mediaTrack::remove(){
 
   media to_add;
+  char * temp = new char[100];
+  int findIndex = 0;
 
+  cout << "Please enter the name of Show/Media Outlet you are looking for: ";
+  cin.get(temp,100);
+  cin.ignore(100,'\n');
+
+  for(int i=0;i != strlen(temp);++i)
+    temp[i] = toupper(temp[i]);
   int check = 0;
 
-  check = remove_Priv(to_add);
+  check = remove_Priv(to_add,temp,count);
 
   if(check == -1) 
   {
@@ -26,33 +34,53 @@ int mediaTrack::remove(){
   }
 
 }
-int mediaTrack::remove_Priv(media & to_add){
-
-  char * temp = new char[100];
-  int findIndex = 0;
-
-  cout << "Please enter the name of Show/Media Outlet you are looking for: ";
-  cin.get(temp,100);
-  cin.ignore(100,'\n');
+int mediaTrack::remove_Priv(media & to_add,char * temp,int count){
 
   media * current = hash_table[count];
+  int tailCheck = 0;
 
   if(count > SZ-1) return 2;
 
   else if(hash_table[count] && count < SZ-1)
   {
+    media * prev = current;
+
     while(current)
     {
-      if(toupper(temp) == toupper(current->name)
-      if(toupper(temp) != toupper(current->name)
+      char * temp2 = new char[100];
+      strcpy(temp2,current->name);
+      for(int i=0;i != strlen(temp2);++i) // puts currents name into uppercase string for easier comparison
+        temp2[i] = toupper(temp2[i]);
+
+      if(strcmp(temp,temp2) == 0)
+      {
+        if(tailCheck == 0)
+        {
+          hash_table[count] = current->next;
+          delete current;
+        }
+        else
+        {
+          prev = current->next;
+          delete current;
+        }
+
+      }
+      else if(strcmp(temp,temp2) != 0);
       {
         media * prev = current;
         current = current->next;
-        }
+        ++tailCheck;
+      }
 
   
-        }
-        }
+    }
+  }
+  while(!hash_table[count] && count < SZ-1)
+    ++count;
+
+
+  return remove_Priv(to_add,temp,count);
   //findIndex = findNameIndex(temp);
 
 
