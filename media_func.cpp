@@ -67,14 +67,14 @@ int mediaTrack::displayAll(int count){
     ++count;
   }
 
-  while(current->next && count < SZ-1)
+  while(current && count < SZ-1)
   {
+
     cout << "Name: " << current->name << endl;
     cout << "Channel/Site: " << current->channel << endl;
     cout << "count: " << count << endl;
-
-
     current = current->next;
+
   }
   ++count;
 
@@ -98,15 +98,16 @@ int mediaTrack::addTo_Priv(media & to_add){
     strcpy(current->name,to_add.name);
     current->channel = new char[strlen(to_add.channel) + 1];
     strcpy(current->channel,to_add.channel);
-    current->next = NULL;
     hash_table[returnCode] = current;
+    current->next = NULL;
     cout << "hash: " << current->name << endl;
   }
   else if(current)
   {
 
     cout << "in here " << endl;
- 
+
+    current = new media;
     current->name = new char[strlen(to_add.name)+1];
     strcpy(current->name,to_add.name);
     current->channel = new char[strlen(to_add.channel)+1];
@@ -114,7 +115,7 @@ int mediaTrack::addTo_Priv(media & to_add){
   }
   current->next = hash_table[returnCode];
   hash_table[returnCode] = current;
-    cout << "hash: " << hash_table[returnCode]->name << endl;
+  cout << "hash2: " << current->next->name << endl;
   /*hash_table[returnCode] = new media;
   hash_table[returnCode]->name = new char[strlen(to_add->name) + 1];
   strcpy(hash_table[returnCode]->name,to_add->name);

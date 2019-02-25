@@ -11,8 +11,9 @@ using namespace std;
 
 const int SZ = 23;
 
-struct media{
+class media{
 
+  public:
   char * name;
   char * channel; // website or channel 
   char * descrip;
@@ -22,6 +23,8 @@ struct media{
   int hashKey;
 
   media * next;
+
+  private:
 
 };
 class mediaTrack{
