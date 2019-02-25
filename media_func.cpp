@@ -2,6 +2,62 @@
 
 #include "media_classes.h"
 
+//remove wrapper
+int mediaTrack::remove(){
+
+  media to_add;
+
+  int check = 0;
+
+  check = remove_Priv(to_add);
+
+  if(check == -1) 
+  {
+    cout << "ERROR" << endl;
+    return -1;
+  }
+  else if(check == 2){
+    cout << "NO MATCH FOUND" << endl;
+    return -1;
+  }
+  else{
+    cout << "SUCCESFULL REMOVED" << endl;
+    return 1;
+  }
+
+}
+int mediaTrack::remove_Priv(media & to_add){
+
+  char * temp = new char[100];
+  int findIndex = 0;
+
+  cout << "Please enter the name of Show/Media Outlet you are looking for: ";
+  cin.get(temp,100);
+  cin.ignore(100,'\n');
+
+  media * current = hash_table[count];
+
+  if(count > SZ-1) return 2;
+
+  else if(hash_table[count] && count < SZ-1)
+  {
+    while(current)
+    {
+      if(toupper(temp) == toupper(current->name)
+      if(toupper(temp) != toupper(current->name)
+      {
+        media * prev = current;
+        current = current->next;
+        }
+
+  
+        }
+        }
+  //findIndex = findNameIndex(temp);
+
+
+}
+//adds additional info as needed.
 int mediaTrack::in_file(media & to_add){
 
   ifstream file_in;
@@ -214,6 +270,24 @@ mediaTrack::mediaTrack(){
 mediaTrack::~mediaTrack(){
 
 
+
+}
+// this will find the index for name entered
+int mediaTrack::findNameIndex(char * temp){
+
+  int sum = 0;
+  int power = 0;
+  int len = strlen(temp);
+
+
+  for(int i=0;i<len;++i)
+    sum += temp[i];
+
+  sum = sum/23;
+
+  power = pow(sum, 3);
+
+  return power%hash_array;
 
 }
 // this will return the search key for list

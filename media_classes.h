@@ -18,8 +18,8 @@ class media{
   ~media();
   char * name;
   char * channel; // website or channel 
-  char * descrip;
-  char * info;
+  char * descrip; // description of show
+  char * info; // information learned 
 
   int rating;
   int hashKey;
@@ -57,6 +57,7 @@ class mediaTrack{
     int displayKey(int userKey);
     int displayAll(int count);
     int displayKeys();
+    int findNameIndex(char * temp); // finds index for user entered name
 
 
     media ** hash_table; // makes array of dynamically allocated head pointers
