@@ -2,6 +2,44 @@
 
 #include "media_classes.h"
 
+
+//reads file out to .txt
+int mediaTrack::out_file(){
+
+  ofstream file_out;
+  file_out.open("mediaTracker.txt");
+
+
+  count = 0;
+ 
+  while(count != SZ-1)
+  {
+    media * current = hash_table[count];
+    if(hash_table[count] && count < SZ-1)
+    {
+
+      while(current){
+      file_out << current->name << '@' << current->channel << '@'
+               << current->descrip << '@' << current->info << '@' << current->rating << '\n';
+
+      current = current->next;
+      }
+      ++count;
+    }
+    while(!hash_table[count] && count < SZ-1)
+    {
+      ++count;
+    }
+  }
+
+  file_out.clear();
+  file_out.close();
+
+  return 0;
+  
+
+
+}
 //remove wrapper
 int mediaTrack::remove(){
 
@@ -127,13 +165,20 @@ int mediaTrack::in_file(media & to_add){
         return -1;
       }
 
-      cout << file_in.peek() << endl;
       to_add.name = new char[100];
       file_in.get(to_add.name,100,'@');
       file_in.ignore(100,'@');
       to_add.channel = new char[100];
-      file_in.get(to_add.channel,100,'\n');
-      file_in.ignore(100,'\n');
+      file_in.get(to_add.channel,100,'@');
+      file_in.ignore(100,'@');
+      to_add.descrip = new char[500];
+      file_in.get(to_add.descrip,500,'@');
+      file_in.ignore(500,'@');
+      to_add.info = new char[500];
+      file_in.get(to_add.info,500,'@');
+      file_in.ignore(500,'@');
+      file_in >> to_add.rating;
+      file_in.ignore(15,'\n');
 
       insert(to_add);
     }
@@ -148,6 +193,9 @@ int mediaTrack::in_file(media & to_add){
 int mediaTrack::addNew(){
 
   media add;
+
+  int rate = 0;
+
   add.name = new char[100];
   cout << "Please enter the Name of Show/Media outlet you want to add: ";
   cin.get(add.name,100);
@@ -156,12 +204,25 @@ int mediaTrack::addNew(){
   cout << "Please enter the website or channel: ";
   cin.get(add.channel,100);
   cin.ignore(100,'\n');
+  cout << "Please enter a brief description of show/media: ";
+  add.descrip = new char[500];
+  cin.get(add.descrip,500);
+  cin.ignore(500,'\n');
+  cout << "Please enter the information you learned about show/media: ";
+  add.info = new char[500];
+  cin.get(add.info,500);
+  cin.ignore(500,'\n');
+  cout << "Please enter the rating of show/media 1-10: ";
+  cin >> add.rating;
+  cin.ignore(100,'\n');
 
   insert(add);
   cout << endl << endl;
 
   delete add.name;
   delete add.channel;
+  delete add.descrip;
+  delete add.info;
 }
 // function for key display/display all 
 int mediaTrack::showKeys(){
@@ -200,7 +261,10 @@ int mediaTrack::displayKey(int userKey){
         cout << "Match/es for Key" << endl;
         cout << "Name: " << current->name << endl;
         cout << "Channel/Site: " << current->channel << endl;
-        cout << "Key: " << current->hashKey << endl << endl;
+        cout << "Key: " << current->hashKey << endl;
+        cout << "Description: " << current->descrip << endl;
+        cout << "Info: " << current->info << endl;
+        cout << "Rating: " << current->rating << endl;
       }
     current = current->next;
     }
@@ -216,13 +280,13 @@ int mediaTrack::display(){
   
   shows = displayAll(count);
 
-  //cout << "Number of Shows: " << shows << endl << endl;
+  cout << "Number of Shows: " << shows << endl << endl;
 }
 // recursive function for display all 
 int mediaTrack::displayAll(int count){
 
   media * current = hash_table[count];
-    cout << "count: " << count << endl;
+  
   if(count >= SZ-1)
   {
     cout << "End of List" << endl << endl;
@@ -235,7 +299,10 @@ int mediaTrack::displayAll(int count){
     while(current){
     cout << "Name: " << current->name << endl;
     cout << "Channel/Site: " << current->channel << endl;
-    cout << "Key: " << current->hashKey << endl << endl;
+    cout << "Key: " << current->hashKey << endl;
+    cout << "Description: " << current->descrip << endl;
+    cout << "Info: " << current->info << endl;
+    cout << "Rating: " << current->rating << endl;
     current = current->next;
     ++num_of_media;
     }
@@ -254,28 +321,30 @@ int mediaTrack::addTo_Priv(media & to_add){
 
   int returnCode = hashKey(&to_add);
 
-  cout << "return code: " << returnCode << endl;
-
   media * current = hash_table[returnCode];
 
-  if(!current)
+  if(!current) // add if nothing in index
   {
-    cout << "test 2" << endl;
     current = new media;
     current->name = new char[strlen(to_add.name) + 1];
     strcpy(current->name,to_add.name);
     current->channel = new char[strlen(to_add.channel) + 1];
     strcpy(current->channel,to_add.channel);
     current->hashKey = searchKey(&to_add);
+    current->descrip = new char[strlen(to_add.descrip)+1];
+    strcpy(current->descrip,to_add.descrip);
+    current->info = new char[strlen(to_add.info)+1];
+    strcpy(current->info,to_add.info);
+    current->rating = to_add.rating;
+
+    cout << "return code: "<< returnCode << endl;
     hash_table[returnCode] = current;
 
     current->next = NULL;
-    cout << "hash: " << current->name << endl;
   }
-  else if(current)
+  else if(current) // if something in index insert in front
   {
 
-    cout << "in here " << endl;
 
     current = new media;
     current->name = new char[strlen(to_add.name)+1];
@@ -283,10 +352,15 @@ int mediaTrack::addTo_Priv(media & to_add){
     current->channel = new char[strlen(to_add.channel)+1];
     strcpy(current->channel,to_add.channel);
     current->hashKey = searchKey(&to_add);
+    current->descrip = new char[strlen(to_add.descrip)+1];
+    strcpy(current->descrip,to_add.descrip);
+    current->info = new char[strlen(to_add.info)+1];
+    strcpy(current->info,to_add.info);
+    current->rating = to_add.rating;
 
+    cout << "return code: " << returnCode << endl;
     current->next = hash_table[returnCode];
     hash_table[returnCode] = current;
-    cout << "hash2: " << current->next->name << endl;
   }
 
 }
@@ -312,7 +386,6 @@ mediaTrack::mediaTrack(){
 
   for(int i=0; i<SZ;++i)
   {
-    cout << "null test" << endl;
     hash_table[i] = NULL;  //sets initial values to null
   }
 
@@ -385,10 +458,16 @@ media::media(){
   channel = NULL;
   descrip = NULL;
   info = NULL;
-  
+
   rating = 0;
   hashKey = 0;
+  
 }
 media::~media(){
+
+  delete [] name;
+  delete [] channel;
+  delete [] descrip;
+  delete [] info;
 
 }

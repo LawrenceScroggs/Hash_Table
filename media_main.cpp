@@ -17,6 +17,8 @@ int main(){
   media to_add;
   mediaTrack list;
 
+  char again = ' ';
+
   list.in_file(to_add);
 
   list.display();
@@ -31,10 +33,10 @@ int main(){
 
   list.display();
 
+  list.out_file();
 
 
-
-
+  to_add.~media();
 
 
 

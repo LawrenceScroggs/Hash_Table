@@ -1,26 +1,19 @@
-netflix@aaa
-youtube@bbb
-hulu@ccc
-fox@ddd
-cnn@eee
-twitch@fff
-cnnnews@ggg
-reddit@hhh
-overwatch@iii
-cartoonnetwork@jjj
-funimation@kkk
-vrv@lll
-crunchyroll@mmm
-hbo@nnn
-showtime@ooo
-starz@ppp
-history@qqq
-food-channel@rrr
-weather-channel@sss
-fx@ttt
-tnt@uuu
-tbs@vvv
-rick and morty@www
-my hero academia@xxx
-call of duty@yyy
-one punch man@zzz
+My Hero Academia@Funimation@Kids that wanna be heroes@Detroit Smash@10
+Finding Nemo@Disney@Dad loses son@Just keep swimming@9
+Avatar@Nickelodeon@Kid masters the elements@Have a good heart@10
+One Punch Man@Funimation@Guy punches stuff@Train like Saitama@10
+Cowboy Bebop@Adult Swim@Space bounty hunters@See you space cowboy@10
+Finding Nemo@Disney@Guy loses his son@Just keep swimming@10
+Dragonball Z@Funimation@Goku fights stuff@Train like goku@8
+Game of Thrones@HBO@People want the Iron Throne@Revenge is a pain@10
+Mob Psycho 100@Vrv@Guy has psychic powers@Don't mess with Mob@10
+Bob's Burgers@Fox@Family runs a burger shop@Beefsquatch@10
+Rick and Morty@Adult Swim@Crazy scientist grandpa goes on adventures with grandson Morty@Your purpose is to pass the butter@10
+True Detective@HBO@Detectives solve stuff@The world is messed up@8
+Futurama@Adult Swim@Guy from year 2000 goes to year 3000@Poor Seymour@10
+Stranger Things@Netflix@Kids lose their friend in upside down@D&D is awesome@10
+Trigun@Funimation@Guy shoots stuff@Peace and Love@10
+FullMetal Alchemist@Funimation@Brothers need to get their bodies back@Don't use alchemy to raise the dead@10
+Howl's Moving Castle@Disney@Wizard has moving castle@Stay away from witches@10
+American Gods@Starz@Gods in America@The gods are among us@10
+Cuphead@Xbox@Two brothers make a deal with the devil@Don't deal with the devil@10

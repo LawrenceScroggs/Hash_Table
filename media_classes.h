@@ -39,7 +39,7 @@ class mediaTrack{
     int remove();
     int showKeys();
     int addNew();
-   
+
     // file in and out functions
     int in_file(media & to_add); // reads in data from file
     int out_file(); // moves data to file
