@@ -7,9 +7,9 @@ int mediaTrack::remove(){
 
   media to_add;
   char * temp = new char[100];
-  int findIndex = 0;
+  count = 0;
 
-  cout << "Please enter the name of Show/Media Outlet you are looking for: ";
+  cout << "Please enter the name of Show/Media Outlet you are looking to remove: ";
   cin.get(temp,100);
   cin.ignore(100,'\n');
 
@@ -22,14 +22,17 @@ int mediaTrack::remove(){
   if(check == -1) 
   {
     cout << "ERROR" << endl;
+    delete [] temp;
     return -1;
   }
   else if(check == 2){
-    cout << "NO MATCH FOUND" << endl;
+    cout << "NO MATCH FOUND" << endl << endl;
+    delete [] temp;
     return -1;
   }
   else{
-    cout << "SUCCESFULL REMOVED" << endl;
+    cout << "SUCCESFULLY REMOVED" << endl << endl;
+    delete [] temp;
     return 1;
   }
 
@@ -37,13 +40,13 @@ int mediaTrack::remove(){
 int mediaTrack::remove_Priv(media & to_add,char * temp,int count){
 
   media * current = hash_table[count];
-  int tailCheck = 0;
 
-  if(count > SZ-1) return 2;
+  if(count >= SZ-1) return 2;
 
   else if(hash_table[count] && count < SZ-1)
   {
     media * prev = current;
+    int tailCheck = 0;
 
     while(current)
     {
@@ -54,35 +57,55 @@ int mediaTrack::remove_Priv(media & to_add,char * temp,int count){
 
       if(strcmp(temp,temp2) == 0)
       {
-        if(tailCheck == 0)
+        if(tailCheck == 0) // checks for only one node
         {
           hash_table[count] = current->next;
           delete current;
+          delete [] temp;
+          delete [] temp2;
+          return 1;
         }
         else
         {
-          prev = current->next;
-          delete current;
+          if(!current->next) // checks if at end of LLL
+          {
+            prev->next = NULL;
+            delete current;
+            delete [] temp;
+            delete [] temp2;
+            return 1;
+          }
+          else{  // removes in middle of LLL
+            prev->next = current->next;
+            delete current;
+            delete [] temp;
+            delete [] temp2;
+            return 1;
+          }
         }
 
       }
-      else if(strcmp(temp,temp2) != 0);
+      if(strcmp(temp,temp2) != 0);
       {
-        media * prev = current;
-        current = current->next;
         ++tailCheck;
       }
-
-  
+      prev = current;
+      current = current->next;
+      delete [] temp2;
     }
+    ++count;
   }
   while(!hash_table[count] && count < SZ-1)
-    ++count;
+    ++count; 
 
+  if(count >= SZ-1)
+  {
+    delete [] temp;
+    return 2;
+  }
 
   return remove_Priv(to_add,temp,count);
   //findIndex = findNameIndex(temp);
-
 
 }
 //adds additional info as needed.
@@ -126,7 +149,7 @@ int mediaTrack::addNew(){
 
   media add;
   add.name = new char[100];
-  cout << "Please enter the Name of Show/Media outlet: ";
+  cout << "Please enter the Name of Show/Media outlet you want to add: ";
   cin.get(add.name,100);
   cin.ignore(100,'\n');
   add.channel = new char[100];
@@ -171,11 +194,10 @@ int mediaTrack::displayKey(int userKey){
   else if(hash_table[index])
   {
     while(current){
-      if(current->hashKey != userKey) return -1;
       
-      cout << "Match/es for Key" << endl;
       if(current->hashKey == userKey)
       {
+        cout << "Match/es for Key" << endl;
         cout << "Name: " << current->name << endl;
         cout << "Channel/Site: " << current->channel << endl;
         cout << "Key: " << current->hashKey << endl << endl;
