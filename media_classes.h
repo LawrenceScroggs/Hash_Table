@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const int SZ = 23;
+const int SZ = 23; // changed from 139// changed from 13// changed from 43// changed from 23
 
 class media{
 

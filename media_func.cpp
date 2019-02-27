@@ -143,7 +143,6 @@ int mediaTrack::remove_Priv(media & to_add,char * temp,int count){
   }
 
   return remove_Priv(to_add,temp,count);
-  //findIndex = findNameIndex(temp);
 
 }
 //adds additional info as needed.
@@ -181,18 +180,23 @@ int mediaTrack::in_file(media & to_add){
       file_in.ignore(15,'\n');
 
       insert(to_add);
+
+      delete to_add.name;
+      delete to_add.channel;
+      delete to_add.descrip;
+      delete to_add.info;
     }
 
   file_in.clear();
   file_in.close();
   }
-  delete to_add.name;
-  delete to_add.channel;
 }
 // adds a new media item
 int mediaTrack::addNew(){
 
   media add;
+
+  int check = 0;
 
   int rate = 0;
 
@@ -216,13 +220,18 @@ int mediaTrack::addNew(){
   cin >> add.rating;
   cin.ignore(100,'\n');
 
-  insert(add);
+  check = insert(add);
+
+  if(check == 1)
+    cout << "Successfully Added" << endl;
   cout << endl << endl;
 
   delete add.name;
   delete add.channel;
   delete add.descrip;
   delete add.info;
+
+  return 0;
 }
 // function for key display/display all 
 int mediaTrack::showKeys(){
@@ -279,8 +288,6 @@ int mediaTrack::display(){
   num_of_media = 0;
   
   shows = displayAll(count);
-
-  cout << "Number of Shows: " << shows << endl << endl;
 }
 // recursive function for display all 
 int mediaTrack::displayAll(int count){
@@ -337,7 +344,6 @@ int mediaTrack::addTo_Priv(media & to_add){
     strcpy(current->info,to_add.info);
     current->rating = to_add.rating;
 
-    cout << "return code: "<< returnCode << endl;
     hash_table[returnCode] = current;
 
     current->next = NULL;
@@ -358,7 +364,6 @@ int mediaTrack::addTo_Priv(media & to_add){
     strcpy(current->info,to_add.info);
     current->rating = to_add.rating;
 
-    cout << "return code: " << returnCode << endl;
     current->next = hash_table[returnCode];
     hash_table[returnCode] = current;
   }
@@ -392,8 +397,22 @@ mediaTrack::mediaTrack(){
 }
 mediaTrack::~mediaTrack(){
 
+  for(int i=0;i < hash_array;++i)
+  {
+    media * current = hash_table[i];
+    if(hash_table[i])
+    {
+      while(current)
+      {
+        media * temp = current;
+        current = current->next;
+        delete temp;
+        hash_table[i] = current;
+      }
+    }
+  }
 
-
+    delete [] hash_table;
 }
 // this will find the index for name entered
 int mediaTrack::findNameIndex(char * temp){
@@ -426,7 +445,7 @@ int mediaTrack::searchKey(media * to_add){
 
   temp = temp/23;
 
-  power = pow(temp, 3);
+  power = pow(temp, 4);
 
   return power;
 
@@ -438,16 +457,13 @@ int mediaTrack::hashKey(media * to_add){
   int power = 0;
   int len = strlen(to_add->name);
 
- // cout << to_add->name << " name" << endl;
 
   for(int i=0;i<len;++i)
     temp += to_add->name[i];
 
   temp = temp/23; 
-  power = pow(temp, 3);
+  power = pow(temp, 4);
   
-
- // cout << "Power: " << power << "temp: " << temp << "len: " << len <<  endl;
 
   return power%hash_array;
 
